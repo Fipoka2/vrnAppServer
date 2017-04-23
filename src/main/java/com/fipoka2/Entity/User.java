@@ -3,6 +3,7 @@ package com.fipoka2.Entity;
 /**
  * Created by Dmitry on 22.04.2017.
  */
+
 public class User
 {
     private long userId;
@@ -13,6 +14,8 @@ public class User
     private long idTeam;
     private String fio;
 
+    public User(){}
+
     public User(long userId, String nickname, String password, String privileges, long idTeam, String fio)
     {
         this.userId = userId;
@@ -22,6 +25,7 @@ public class User
         this.idTeam = idTeam;
         this.fio = fio;
     }
+
 
     public long getUserId()
     {
