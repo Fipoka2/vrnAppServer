@@ -22,6 +22,8 @@ public class Team
         this.description = description;
     }
 
+    public Team(){}
+
     public long getIdTeam()
     {
         return idTeam;
