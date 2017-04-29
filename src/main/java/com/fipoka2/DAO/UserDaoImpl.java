@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public class UserImpl implements UserDAO
+public class UserDaoImpl implements UserDAO
 {
     @Autowired
     private JdbcTemplate jdbcTemplate;

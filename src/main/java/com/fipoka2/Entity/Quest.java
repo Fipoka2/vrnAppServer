@@ -8,12 +8,19 @@ import java.util.Date;
 public class Quest
 {
     private long idQuest;
+
     private String name;
+
     private String description;
+
     private long idPlace;
+
     private long idAdministrator;
+
     private Date launchDate;
+
     private long reward;
+
     private boolean isAble;
 
     public Quest(long idQuest, String name, String description, long idPlace, long idAdministrator, Date launchDate, long reward, boolean isAble)

@@ -9,16 +9,15 @@ public class Team
     private long idTeam;
     private String name;
     private long score;
-    private byte[] teamLogo;
-    //TODO: teamLogo is a picture from a database
+    private String teamLogoPath;
     private String description;
 
-    public Team(long idTeam, String name, long score, byte[] teamLogo, String description)
+    public Team(long idTeam, String name, long score, String teamLogo, String description)
     {
         this.idTeam = idTeam;
         this.name = name;
         this.score = score;
-        this.teamLogo = teamLogo;
+        this.teamLogoPath = teamLogo;
         this.description = description;
     }
 
@@ -54,14 +53,14 @@ public class Team
         this.score = score;
     }
 
-    public byte[] getTeamLogo()
+    public String getTeamLogoPath()
     {
-        return teamLogo;
+        return teamLogoPath;
     }
 
-    public void setTeamLogo(byte[] teamLogo)
+    public void setTeamLogoPath(String teamLogo)
     {
-        this.teamLogo = teamLogo;
+        this.teamLogoPath = teamLogo;
     }
 
     public String getDescription()

@@ -1,5 +1,7 @@
 package com.fipoka2.Entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by Dmitry on 22.04.2017.
  */
@@ -7,11 +9,19 @@ package com.fipoka2.Entity;
 public class User
 {
     private long userId;
+
     private String nickname;
+
+
+    @JsonProperty(access =  JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String privileges;
     //TODO: long or string? Privileges table doesn't exist but idPrivileges
+
     private long idTeam;
+
     private String fio;
 
     public User(){}
