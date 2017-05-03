@@ -5,14 +5,15 @@ import com.fipoka2.Entity.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
-
-public class TeamImpl implements TeamDAO
+@Repository
+public class TeamDAOImpl implements TeamDAO
 {
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -23,7 +24,7 @@ public class TeamImpl implements TeamDAO
         public Team mapRow(ResultSet resultSet, int i) throws SQLException
         {
             Team team = new Team();
-            team.setIdTeam((resultSet.getLong("idTeam"));
+            team.setIdTeam((resultSet.getLong("idTeam")));
             team.setName(resultSet.getString("name"));
             team.setScore(resultSet.getLong("score"));
             //TODO: getBytes vs getBlob vs getBinaryStream
@@ -39,7 +40,7 @@ public class TeamImpl implements TeamDAO
     public Collection<Team> getAllTeams()
     {
         final String sql = allColumns;
-        List<Team> teams = jdbcTemplate.query(sql, new TeamImpl.TeamRowMapper());
+        List<Team> teams = jdbcTemplate.query(sql, new TeamDAOImpl.TeamRowMapper());
         return teams;
     }
 
@@ -47,7 +48,7 @@ public class TeamImpl implements TeamDAO
     public Team getTeamById(long id)
     {
         final String sql = allColumns + "WHERE id = ?";
-        Team Team = jdbcTemplate.queryForObject(sql, new TeamImpl.TeamRowMapper(),id);
+        Team Team = jdbcTemplate.queryForObject(sql, new TeamDAOImpl.TeamRowMapper(),id);
         return Team;
     }
 
@@ -56,7 +57,7 @@ public class TeamImpl implements TeamDAO
     {
         //name should be unique
         final String sql = allColumns + "WHERE name = ?";
-        Team team = jdbcTemplate.queryForObject(sql, new TeamImpl.TeamRowMapper(),name);
+        Team team = jdbcTemplate.queryForObject(sql, new TeamDAOImpl.TeamRowMapper(),name);
         return team;
     }
 

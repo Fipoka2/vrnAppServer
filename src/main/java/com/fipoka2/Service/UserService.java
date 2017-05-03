@@ -8,14 +8,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
-/**
- * Created by Дима on 28.04.2017.
- */
+
 @Service
 public class UserService
 {
     @Autowired
-    UserDaoImpl userDao;
+    private UserDaoImpl userDao;
 
     public Collection<User> getAllUsers()
     {

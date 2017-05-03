@@ -12,7 +12,7 @@ import java.util.Collection;
 public class TeamService
 {
     @Autowired
-    TeamDAO teamDAO;
+    private TeamDAO teamDAO;
 
     public Collection<Team> getAllTeams(){
         return teamDAO.getAllTeams();
@@ -36,9 +36,9 @@ public class TeamService
         this.teamDAO.removeTeamByName(name);
     }
 
-    public void updateTeam(Team team){
+    public void updateTeam(Team team)
+    {
         this.teamDAO.updateTeam(team);
-
     }
 
     public void insertTeam(Team team)

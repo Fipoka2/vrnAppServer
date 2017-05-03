@@ -2,9 +2,7 @@ package com.fipoka2.Entity;
 
 import java.awt.Point;
 
-/**
- * Created by Dmitry on 23.04.2017.
- */
+
 public class Place
 {
     private long idPlace;

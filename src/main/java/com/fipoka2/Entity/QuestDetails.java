@@ -8,6 +8,7 @@ public class QuestDetails
     private long idQuestDetails;
     private long idTeam;
     private long idQuest;
+    //TODO: It's shouldn't be byte[]. Maybe new table?
     private byte[] binaryData;
     private boolean isAccepted;
     private String message;
@@ -21,6 +22,8 @@ public class QuestDetails
         this.isAccepted = isAccepted;
         this.message = message;
     }
+
+    public QuestDetails(){}
 
     public long getIdQuestDetails()
     {
