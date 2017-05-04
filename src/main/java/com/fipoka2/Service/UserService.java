@@ -19,11 +19,11 @@ public class UserService
     {
         return userDao.getAllUsers();
     }
-    public User getUserByID(int id){
+    public User getUserByID(long id){
         return this.userDao.getUserById(id);
     }
 
-    public void removeUserById(int id)
+    public void removeUserById(long id)
     {
         this.userDao.removeUserById(id);
     }

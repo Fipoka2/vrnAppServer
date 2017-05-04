@@ -28,6 +28,7 @@ public class UserController
     {
         return userService.getAllUsers();
     }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public User getUserById(@PathVariable("id") int id){
         return userService.getUserByID(id);
@@ -43,6 +44,13 @@ public class UserController
     public String updateUser(@RequestBody User user){
         userService.updateUser(user);
         return "updated";
+    }
+
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String insertUser(@RequestBody User user)
+    {
+        userService.insertUser(user);
+        return "uebok";
     }
     
 }

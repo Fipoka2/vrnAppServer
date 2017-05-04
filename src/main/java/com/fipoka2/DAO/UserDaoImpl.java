@@ -25,16 +25,16 @@ public class UserDaoImpl implements UserDAO
         {
             User User = new User();
             User.setUserId(resultSet.getLong("idUser"));
-            User.setNickname(resultSet.getString("name"));
+            User.setNickname(resultSet.getString("nickname"));
             User.setPassword(resultSet.getString("password"));
             User.setPrivileges(resultSet.getString("privileges"));
             User.setIdTeam(resultSet.getLong("idTeam"));
-            User.setFio(resultSet.getString("FIO"));
+            User.setFio(resultSet.getString("fio"));
             return User;
         }
     }
 
-    final String allColumns = "SELECT idUser,nickname,password,privileges,idTeam,FIO FROM user ";
+    final String allColumns = "SELECT idUser,nickname,password,privileges,idTeam,fio FROM user";
 
     @Override
     public Collection<User> getAllUsers()
@@ -55,7 +55,7 @@ public class UserDaoImpl implements UserDAO
     @Override
     public User getUserById(long id)
     {
-        final String sql = allColumns + "WHERE id = ?";
+        final String sql = allColumns + " WHERE idUser = ?";
         User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(),id);
         return user;
     }
@@ -86,27 +86,26 @@ public class UserDaoImpl implements UserDAO
     @Override
     public void updateUser(User user)
     {
-        final String sql = "INSERT INTO student (nickname,password,privileges,idTeam,FIO) VALUES (?,?,?,?,?)";
+        final String sql = "UPDATE user SET nickname = ?, password = ?, privileges = ?, idTeam = ?, FIO = ? WHERE id = ?";
+        final String name = user.getNickname();
+        final String password = user.getPassword();
+        final String privileges = user.getPrivileges();
+        final long idTeam = user.getIdTeam();
+        final String FIO = user.getFio();
+        final long id = user.getUserId();
+        jdbcTemplate.update(sql,new Object[] {name,password,privileges,idTeam,FIO,id});
+    }
+
+    @Override
+    public void insertUserToDb(User user)
+    {
+        final String sql = "INSERT INTO user (nickname,password,privileges,idTeam,FIO) VALUES (?,?,?,?,?)";
         final String name = user.getNickname();
         final String password = user.getPassword();
         final String privileges = user.getPrivileges();
         final long idTeam = user.getIdTeam();
         final String FIO = user.getFio();
         jdbcTemplate.update(sql,new Object[] {name,password,privileges,idTeam,FIO});
-    }
-
-    @Override
-    public void insertUserToDb(User user)
-    {
-        final String sql = "UPDATE User SET nickname = ?, password = ?, privileges = ?" +
-                ", idTeam = ?, FIO = ? WHERE id = ?";
-        final long id = user.getUserId();
-        final String name = user.getNickname();
-        final String password = user.getPassword();
-        final String privileges = user.getPrivileges();
-        final long idTeam = user.getIdTeam();
-        final String FIO = user.getFio();
-        jdbcTemplate.update(sql,new Object[] {name,password,privileges,idTeam,FIO,id});
 
     }
 }
