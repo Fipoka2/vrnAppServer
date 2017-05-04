@@ -76,7 +76,7 @@ public class TeamDAOImpl implements TeamDAO
     }
 
     @Override
-    public void updateTeam(Team team)
+    public void insertTeamToDb(Team team)
     {
         final String sql = "INSERT INTO team (name,score,teamLogo,description) VALUES (?,?,?,?)";
         final String name = team.getName();
@@ -87,7 +87,7 @@ public class TeamDAOImpl implements TeamDAO
     }
 
     @Override
-    public void insertTeamToDb(Team team)
+    public void updateTeam(Team team)
     {
         final String sql = "UPDATE team SET name = ?, score = ?, teamLogo = ?" +
                 ", description = ? WHERE id = ?";
