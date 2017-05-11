@@ -35,6 +35,8 @@ public class Quest
         this.isAble = isAble;
     }
 
+    public Quest() {}
+
     public long getIdQuest()
     {
         return idQuest;

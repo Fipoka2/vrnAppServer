@@ -24,17 +24,17 @@ public class UserDaoImpl implements UserDAO
         public User mapRow(ResultSet resultSet, int i) throws SQLException
         {
             User User = new User();
-            User.setUserId(resultSet.getLong("idUser"));
+            User.setUserId(resultSet.getLong("id_user"));
             User.setNickname(resultSet.getString("nickname"));
             User.setPassword(resultSet.getString("password"));
-            User.setPrivileges(resultSet.getString("privileges"));
-            User.setIdTeam(resultSet.getLong("idTeam"));
+            User.setIdPrivileges(resultSet.getLong("id_privileges"));
+            User.setIdTeam(resultSet.getLong("id_team"));
             User.setFio(resultSet.getString("fio"));
             return User;
         }
     }
 
-    final String allColumns = "SELECT idUser,nickname,password,privileges,idTeam,fio FROM user";
+    final String allColumns = "SELECT id_user,nickname,password,id_privileges,id_team,fio FROM user";
 
     @Override
     public Collection<User> getAllUsers()
@@ -45,17 +45,17 @@ public class UserDaoImpl implements UserDAO
     }
 
     @Override
-    public Collection<User> getUsersByTeam(long idTeam)
+    public Collection<User> getUsersByTeam(long id_team)
     {
-        final String sql = allColumns + "WHERE idTeam = ?";
-        List<User> users = jdbcTemplate.query(sql, new UserRowMapper(),idTeam);
+        final String sql = allColumns + "WHERE id_team = ?";
+        List<User> users = jdbcTemplate.query(sql, new UserRowMapper(),id_team);
         return users;
     }
 
     @Override
     public User getUserById(long id)
     {
-        final String sql = allColumns + " WHERE idUser = ?";
+        final String sql = allColumns + " WHERE id_user = ?";
         User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(),id);
         return user;
     }
@@ -72,7 +72,7 @@ public class UserDaoImpl implements UserDAO
     @Override
     public void removeUserById(long id)
     {
-        final String sql = "DELETE FROM user WHERE id = ?";
+        final String sql = "DELETE FROM user WHERE id_user = ?";
         jdbcTemplate.update(sql,id);
     }
 
@@ -86,26 +86,25 @@ public class UserDaoImpl implements UserDAO
     @Override
     public void updateUser(User user)
     {
-        final String sql = "UPDATE user SET nickname = ?, password = ?, privileges = ?, idTeam = ?, FIO = ? WHERE id = ?";
+        final String sql = "UPDATE user SET nickname = ?, password = ?, id_privileges = ?, id_team = ?, fio = ? WHERE id_user = ?";
         final String name = user.getNickname();
         final String password = user.getPassword();
-        final String privileges = user.getPrivileges();
-        final long idTeam = user.getIdTeam();
-        final String FIO = user.getFio();
+        final long id_privileges = user.getIdPrivileges();
+        final long id_team = user.getIdTeam();
+        final String fio = user.getFio();
         final long id = user.getUserId();
-        jdbcTemplate.update(sql,new Object[] {name,password,privileges,idTeam,FIO,id});
+        jdbcTemplate.update(sql,new Object[] {name,password,id_privileges,id_team,fio,id});
     }
 
     @Override
     public void insertUserToDb(User user)
     {
-        final String sql = "INSERT INTO user (nickname,password,privileges,idTeam,FIO) VALUES (?,?,?,?,?)";
+        final String sql = "INSERT INTO user (nickname,password,id_privileges,id_team,fio) VALUES (?,?,?,?,?)";
         final String name = user.getNickname();
         final String password = user.getPassword();
-        final String privileges = user.getPrivileges();
-        final long idTeam = user.getIdTeam();
-        final String FIO = user.getFio();
-        jdbcTemplate.update(sql,new Object[] {name,password,privileges,idTeam,FIO});
-
+        final long id_privileges = user.getIdPrivileges();
+        final long id_team = user.getIdTeam();
+        final String fio = user.getFio();
+        jdbcTemplate.update(sql,new Object[] {name,password,id_privileges,id_team,fio});
     }
 }

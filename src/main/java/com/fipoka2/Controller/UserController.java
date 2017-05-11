@@ -30,12 +30,12 @@ public class UserController
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public User getUserById(@PathVariable("id") int id){
+    public User getUserById(@PathVariable("id") long id){
         return userService.getUserByID(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public String deleteUserById(@PathVariable("id") int id){
+    public String deleteUserById(@PathVariable("id") long id){
         userService.removeUserById(id);
         return "deleted";
     }
@@ -46,11 +46,13 @@ public class UserController
         return "updated";
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String insertUser(@RequestBody User user)
+    @RequestMapping(method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void insertUser(@RequestBody User user)
     {
+        System.out.println("start inserting");
+        System.out.println(user.toString());
         userService.insertUser(user);
-        return "uebok";
+        System.out.println("inserted");
     }
     
 }

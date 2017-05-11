@@ -24,17 +24,17 @@ public class TeamDAOImpl implements TeamDAO
         public Team mapRow(ResultSet resultSet, int i) throws SQLException
         {
             Team team = new Team();
-            team.setIdTeam((resultSet.getLong("idTeam")));
+            team.setIdTeam((resultSet.getLong("id_team")));
             team.setName(resultSet.getString("name"));
             team.setScore(resultSet.getLong("score"));
             //TODO: getBytes vs getBlob vs getBinaryStream
-            team.setTeamLogoPath(resultSet.getString("teamLogo"));
+            team.setTeamLogoPath(resultSet.getString("logo_link"));
             team.setDescription(resultSet.getString("description"));
             return team;
         }
     }
 
-    final String allColumns = "SELECT idTeam,name,score,teamLogo,description FROM team ";
+    final String allColumns = "SELECT id_team,name,score,logo_link,description FROM team ";
 
     @Override
     public Collection<Team> getAllTeams()
@@ -78,7 +78,7 @@ public class TeamDAOImpl implements TeamDAO
     @Override
     public void insertTeamToDb(Team team)
     {
-        final String sql = "INSERT INTO team (name,score,teamLogo,description) VALUES (?,?,?,?)";
+        final String sql = "INSERT INTO team (name,score,logo_link,description) VALUES (?,?,?,?)";
         final String name = team.getName();
         final long score = team.getScore();
         final String teamLogo = team.getTeamLogoPath();
@@ -89,8 +89,8 @@ public class TeamDAOImpl implements TeamDAO
     @Override
     public void updateTeam(Team team)
     {
-        final String sql = "UPDATE team SET name = ?, score = ?, teamLogo = ?" +
-                ", description = ? WHERE id = ?";
+        final String sql = "UPDATE team SET name = ?, score = ?, logo_link = ?" +
+                ", description = ? WHERE id_team = ?";
         final long id = team.getIdTeam();
         final String name = team.getName();
         final long score = team.getScore();

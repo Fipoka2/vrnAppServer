@@ -1,15 +1,23 @@
 package com.fipoka2.Entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by Dmitry on 22.04.2017.
  */
 
 public class Team
 {
+    //поле только для отправления на клиент (запрет на прием поля отправленного клиентом)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long idTeam;
+
     private String name;
+
     private long score;
+
     private String teamLogoPath;
+
     private String description;
 
     public Team(long idTeam, String name, long score, String teamLogo, String description)

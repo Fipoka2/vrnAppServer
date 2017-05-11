@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User
 {
+    //@JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long userId;
 
     private String nickname;
@@ -17,8 +18,7 @@ public class User
     private String password;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String privileges;
-    //TODO: long or string? Privileges table doesn't exist but idPrivileges
+    private long idPrivileges;
 
     private long idTeam;
 
@@ -26,14 +26,21 @@ public class User
 
     public User(){}
 
-    public User(long userId, String nickname, String password, String privileges, long idTeam, String fio)
+    public User(long userId, String nickname, String password, long idPrivileges, long idTeam, String fio)
     {
         this.userId = userId;
         this.nickname = nickname;
         this.password = password;
-        this.privileges = privileges;
+        this.idPrivileges = idPrivileges;
         this.idTeam = idTeam;
         this.fio = fio;
+    }
+    public User( String nickname, String password,long priv,long idTeam, String fio){
+        this.nickname = nickname;
+        this.password = password;
+        this.idTeam = idTeam;
+        this.fio = fio;
+        this.idPrivileges = priv;
     }
 
 
@@ -67,15 +74,15 @@ public class User
         this.password = password;
     }
 
-    public String getPrivileges()
+    public long getIdPrivileges()
     {
-        return privileges;
+        return idPrivileges;
     }
 
-    public void setPrivileges(String privileges)
+    public void setIdPrivileges(long idPrivileges)
     {
 
-        this.privileges = privileges;
+        this.idPrivileges = idPrivileges;
     }
 
     public long getIdTeam()
@@ -96,5 +103,18 @@ public class User
     public void setFio(String fio)
     {
         this.fio = fio;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "User{" +
+                "userId=" + userId +
+                ", nickname='" + nickname + '\'' +
+                ", password='" + password + '\'' +
+                ", idPrivileges='" + idPrivileges + '\'' +
+                ", idTeam=" + idTeam +
+                ", fio='" + fio + '\'' +
+                '}';
     }
 }
