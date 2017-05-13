@@ -52,6 +52,11 @@ public class TeamController
         return new ResponseEntity<String>("it is ok", HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/{id}/amount",method = RequestMethod.GET)
+    public long getUsersAmount(@PathVariable long id){
+        return teamService.getUsersAmountByTeam(id);
+    }
+
     // @RequestMapping(value = "/byCourse/{username}",method = RequestMethod.GET)
     //@PreAuthorize("authentication.name == #name " )
 

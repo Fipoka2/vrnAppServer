@@ -4,13 +4,17 @@ import com.fipoka2.Entity.User;
 import com.fipoka2.Service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 /**
@@ -47,12 +51,20 @@ public class UserController
     }
 
     @RequestMapping(method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void insertUser(@RequestBody User user)
+    @ExceptionHandler(SQLException.class)
+    public ResponseEntity<String> insertUser(@RequestBody User user)
     {
         System.out.println("start inserting");
         System.out.println(user.toString());
-        userService.insertUser(user);
+        try{
+        userService.insertUser(user);}catch(Exception ex)
+        {
+            System.out.println("SqlException");
+            return new ResponseEntity<String>("Da ti ohuel chtoli", HttpStatus.OK);
+        }
         System.out.println("inserted");
+        return new ResponseEntity<String>("Vse zaebis proshlo", HttpStatus.OK);
+
     }
     
 }

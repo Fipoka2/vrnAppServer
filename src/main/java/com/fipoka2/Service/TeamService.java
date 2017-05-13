@@ -46,4 +46,9 @@ public class TeamService
         teamDAO.insertTeamToDb(team);
     }
 
+    public long getUsersAmountByTeam(long id_team)
+    {
+        return teamDAO.getUsersAmountByTeam(id_team);
+    }
+
 }

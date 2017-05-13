@@ -98,4 +98,12 @@ public class TeamDAOImpl implements TeamDAO
         final String description = team.getDescription();
         jdbcTemplate.update(sql,new Object[] {name,score,teamLogo,description,id});
     }
+
+    @Override
+    public long getUsersAmountByTeam(long id_team)
+    {
+        final String sql = "select count(*) from user where id_team = ?";
+        long amount = jdbcTemplate.queryForObject(sql,Long.class,id_team);
+        return amount;
+    }
 }

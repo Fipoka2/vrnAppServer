@@ -34,7 +34,7 @@ public class UserDaoImpl implements UserDAO
         }
     }
 
-    final String allColumns = "SELECT id_user,nickname,password,id_privileges,id_team,fio FROM user";
+    final String allColumns = "SELECT id_user,nickname,password,id_privileges,id_team,fio FROM user ";
 
     @Override
     public Collection<User> getAllUsers()
@@ -107,4 +107,6 @@ public class UserDaoImpl implements UserDAO
         final String fio = user.getFio();
         jdbcTemplate.update(sql,new Object[] {name,password,id_privileges,id_team,fio});
     }
+
+
 }

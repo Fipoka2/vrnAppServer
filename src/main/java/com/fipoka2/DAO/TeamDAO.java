@@ -13,4 +13,5 @@ public interface TeamDAO
     void removeTeamByName(String name);
     void updateTeam(Team team);
     void insertTeamToDb(Team team);
+    long getUsersAmountByTeam(long id_team);
 }
