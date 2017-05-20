@@ -2,7 +2,10 @@ package com.fipoka2.DAO;
 
 import com.fipoka2.Entity.Team;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -15,6 +18,7 @@ import java.util.List;
 @Repository
 public class TeamDAOImpl implements TeamDAO
 {
+    private Logger logger = LoggerFactory.getLogger(TeamDAOImpl.class);
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -27,7 +31,6 @@ public class TeamDAOImpl implements TeamDAO
             team.setIdTeam((resultSet.getLong("id_team")));
             team.setName(resultSet.getString("name"));
             team.setScore(resultSet.getLong("score"));
-            //TODO: getBytes vs getBlob vs getBinaryStream
             team.setTeamLogoPath(resultSet.getString("logo_link"));
             team.setDescription(resultSet.getString("description"));
             return team;
@@ -76,14 +79,15 @@ public class TeamDAOImpl implements TeamDAO
     }
 
     @Override
-    public void insertTeamToDb(Team team)
+    public void insertTeamToDb(Team team) throws DataAccessException
     {
-        final String sql = "INSERT INTO team (name,score,logo_link,description) VALUES (?,?,?,?)";
-        final String name = team.getName();
-        final long score = team.getScore();
-        final String teamLogo = team.getTeamLogoPath();
-        final String description = team.getDescription();
-        jdbcTemplate.update(sql,new Object[] {name,score,teamLogo,description});
+            final String sql = "INSERT INTO team (name,score,logo_link,description) VALUES (?,?,?,?)";
+            final String name = team.getName();
+            final long score = team.getScore();
+            final String teamLogo = team.getTeamLogoPath();
+            final String description = team.getDescription();
+            jdbcTemplate.update(sql, new Object[]{name, score, teamLogo, description});
+
     }
 
     @Override

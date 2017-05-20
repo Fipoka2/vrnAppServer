@@ -31,12 +31,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
     @Autowired
     private AuthenticationEntryPoint authEntryPoint;
 
-    @Override
+   @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
+                .antMatchers("/users/registration").anonymous()
                 .anyRequest().authenticated()
                 .and().httpBasic()
-                .authenticationEntryPoint(authEntryPoint);
+                .authenticationEntryPoint(authEntryPoint)
+        ;
     }
 
 //    @Autowired
@@ -44,23 +46,26 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
 //
 //    }
 
-//    @Autowired
-//    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.jdbcAuthentication().dataSource(dataSource)
-//                .usersByUsernameQuery("SELECT name,course,1 FROM student where name=?")
-//                .authoritiesByUsernameQuery("SELECT idStudent,role FROM roles where idStudent=?");
-//        System.out.println("ZAPROS");
-//    }
-
-  @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("john123").password("password").roles("ADMIN");
+    @Autowired
+    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+        final String SQL_PRIVILEGES = "SELECT nickname,status FROM user inner join privileges on " +
+                "user.id_privileges = privileges.id_privileges where nickname=?";
+        auth.jdbcAuthentication().dataSource(dataSource)
+                .usersByUsernameQuery("SELECT nickname,password,1 FROM user where nickname=?")
+                .authoritiesByUsernameQuery(SQL_PRIVILEGES)
+        ;
+        System.out.println("ZAPROS");
     }
-    /*@Override
+
+//  @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication().withUser("john123").password("password").roles("ADMIN");
+//    }
+   /* @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/public").permitAll()
+                .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -69,5 +74,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
                 .logout()
                 .permitAll();
     }*/
+
+
 
 }

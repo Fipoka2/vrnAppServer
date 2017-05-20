@@ -102,7 +102,7 @@ public class UserDaoImpl implements UserDAO
         final String sql = "INSERT INTO user (nickname,password,id_privileges,id_team,fio) VALUES (?,?,?,?,?)";
         final String name = user.getNickname();
         final String password = user.getPassword();
-        final long id_privileges = user.getIdPrivileges();
+        final long id_privileges = (user.getIdPrivileges()==0)?1:user.getIdPrivileges();
         final long id_team = user.getIdTeam();
         final String fio = user.getFio();
         jdbcTemplate.update(sql,new Object[] {name,password,id_privileges,id_team,fio});

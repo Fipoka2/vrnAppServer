@@ -1,7 +1,5 @@
 package com.fipoka2.Entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * Created by Dmitry on 22.04.2017.
  */
@@ -9,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Team
 {
     //поле только для отправления на клиент (запрет на прием поля отправленного клиентом)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long idTeam;
 
     private String name;

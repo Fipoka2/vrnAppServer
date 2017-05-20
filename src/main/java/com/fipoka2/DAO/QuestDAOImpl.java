@@ -5,15 +5,18 @@ import com.fipoka2.Entity.Quest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Дима on 05.05.2017.
  */
+@Repository
 public class QuestDAOImpl implements  QuestDAO
 {
 
@@ -85,19 +88,15 @@ public class QuestDAOImpl implements  QuestDAO
                 ", description = ? WHERE id_quest = ?";
         final long id = quest.getIdQuest();
         final String name = quest.getName();
-//        final long score = quest.getScore();
-//        final String questLogo = quest.getQuestLogoPath();
         final String description = quest.getDescription();
-//        jdbcTemplate.update(sql, new Object[]{name, score, questLogo, description, id});
+        final long id_administrator = quest.getIdAdministrator();
+        final Date launch_date = quest.getLaunchDate();
+        final long reward = quest.getReward();
+        final boolean is_able = quest.isAble();
+        jdbcTemplate.update(sql, name,description,id_administrator,
+                launch_date,reward,is_able,id);
     }
 
-   // @Override
-    public long getUsersAmountByQuest(long id_quest)
-    {
-        final String sql = "select count(*) from user where id_quest = ?";
-        long amount = jdbcTemplate.queryForObject(sql, Long.class, id_quest);
-        return amount;
-    }
 }
 
     

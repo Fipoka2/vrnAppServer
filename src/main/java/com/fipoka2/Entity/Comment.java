@@ -18,6 +18,10 @@ public class Comment
         this.message = message;
     }
 
+    public Comment()
+    {
+    }
+
     public long getIdComment()
     {
         return idComment;

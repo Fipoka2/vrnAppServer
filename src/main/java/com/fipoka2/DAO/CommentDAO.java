@@ -10,11 +10,8 @@ import java.util.Collection;
 public interface CommentDAO
 {
     Collection<Comment> getAllComments();
-    Collection<Comment> getCommentsByUser(long idUser);
     Comment getCommentById(long id);
-    Comment getCommentByName(String name);
     void removeCommentById(long id);
-    void removeCommentByName(String name);
-    void updateComment(Comment user);
-    void insertCommentToDb(Comment user);
+    void updateComment(Comment comment);
+    void insertCommentToDb(Comment comment);
 }

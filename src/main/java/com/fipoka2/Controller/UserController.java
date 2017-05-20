@@ -3,7 +3,10 @@ package com.fipoka2.Controller;
 import com.fipoka2.Entity.User;
 import com.fipoka2.Service.UserService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +27,10 @@ import java.util.Collection;
 @RequestMapping("/users")
 public class UserController
 {
+    private final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
     Collection<User> getAllUsers()
@@ -50,20 +55,20 @@ public class UserController
         return "updated";
     }
 
-    @RequestMapping(method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/registration", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     @ExceptionHandler(SQLException.class)
     public ResponseEntity<String> insertUser(@RequestBody User user)
     {
-        System.out.println("start inserting");
-        System.out.println(user.toString());
+        logger.info("start inserting");
+        logger.info(user.toString());
         try{
-        userService.insertUser(user);}catch(Exception ex)
+        userService.insertUser(user);} catch (DataAccessException ex)
         {
-            System.out.println("SqlException");
-            return new ResponseEntity<String>("Da ti ohuel chtoli", HttpStatus.OK);
+            logger.error("SqlException: ",ex);
+            return new ResponseEntity<String>("Error! Check your fields!", HttpStatus.OK);
         }
-        System.out.println("inserted");
-        return new ResponseEntity<String>("Vse zaebis proshlo", HttpStatus.OK);
+        logger.info("inserted",user);
+        return new ResponseEntity<String>("Success!", HttpStatus.OK);
 
     }
     
