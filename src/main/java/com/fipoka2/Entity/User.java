@@ -24,6 +24,8 @@ public class User
 
     private String fio;
 
+    private boolean isCaptain;
+
     public User(){}
 
     public User(long userId, String nickname, String password, long idPrivileges, long idTeam, String fio)
@@ -103,6 +105,14 @@ public class User
     public void setFio(String fio)
     {
         this.fio = fio;
+    }
+
+    public boolean isCaptain() {
+        return isCaptain;
+    }
+
+    public void setCaptain(boolean captain) {
+        isCaptain = captain;
     }
 
     @Override

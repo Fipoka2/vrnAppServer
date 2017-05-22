@@ -24,7 +24,7 @@ public class LoginController
     {
         User activeUser = (User) SecurityContextHolder.
                 getContext().getAuthentication().getPrincipal();
-        logger.info("User [" + activeUser.getUsername()+ "] has authenticated");
+        logger.info("User [" + activeUser.getUsername()+ "] has been authenticated.");
         return  new ResponseEntity<String>("You are successfully authtorized!",HttpStatus.OK);
     }
 

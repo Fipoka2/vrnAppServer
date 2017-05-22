@@ -18,6 +18,9 @@ public class UserDaoImpl implements UserDAO
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    TeamDAO teamDAO;
+
     private static class UserRowMapper implements RowMapper<User>
     {
         @Override
@@ -72,7 +75,18 @@ public class UserDaoImpl implements UserDAO
     @Override
     public void removeUserById(long id)
     {
+        //final String selectSQL = "SELECT id_team,is_captain from user where id_user = ?";
         final String sql = "DELETE FROM user WHERE id_user = ?";
+        final String rnmUser = "select id_user from user where id_team = ?";
+
+        User user = getUserById(id);
+        if (user.isCaptain())
+        {
+            if(teamDAO.getUsersAmountByTeam(user.getIdTeam()) > 0)
+            {
+
+            }
+        }
         jdbcTemplate.update(sql,id);
     }
 
@@ -106,6 +120,11 @@ public class UserDaoImpl implements UserDAO
         final long id_team = user.getIdTeam();
         final String fio = user.getFio();
         jdbcTemplate.update(sql,new Object[] {name,password,id_privileges,id_team,fio});
+    }
+
+    public void setCaptainById(long id)
+    {
+
     }
 
 

@@ -35,7 +35,9 @@ public class UserController
     @RequestMapping(method = RequestMethod.GET)
     Collection<User> getAllUsers()
     {
+        logger.info("Collection of users was sent.");
         return userService.getAllUsers();
+
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -44,9 +46,9 @@ public class UserController
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public String deleteUserById(@PathVariable("id") long id){
+    public void deleteUserById(@PathVariable("id") long id){
         userService.removeUserById(id);
-        return "deleted";
+        logger.info("User with id = " + id + " was removed.");
     }
 
     @RequestMapping(method = RequestMethod.PUT,consumes = MediaType.APPLICATION_JSON_VALUE)

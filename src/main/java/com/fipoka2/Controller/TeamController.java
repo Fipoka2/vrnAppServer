@@ -31,13 +31,13 @@ public class TeamController
     @RequestMapping(method = RequestMethod.GET)
     public Collection<Team> getAllTeams(){
 
-        logger.info("collection of teams was successfully sent.");
+        logger.info("Collection of teams was successfully sent.");
         return teamService.getAllTeams();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Team getTeamById(@PathVariable("id") int id){
-        logger.info("team with id = " + id + " was successfully sent.");
+        logger.info("Team with id = " + id + " was successfully sent.");
         return teamService.getTeamById(id);
     }
 
@@ -63,10 +63,10 @@ public class TeamController
         catch (DataAccessException ex)
         {
             logger.error("SQL Exception1",ex.getCause());
-            logger.error("SQL Exception2",ex.getRootCause());
-            logger.error("SQL Exception3",ex.getMostSpecificCause().getCause());
-            logger.error("SQL Exception4",ex.toString());
-            logger.error("SQL Exception5",ex.getLocalizedMessage());
+            //logger.error("SQL Exception2",ex.getRootCause());
+            //logger.error("SQL Exception3",ex.getMostSpecificCause().getCause());
+            //logger.error("SQL Exception4",ex.toString());
+            //logger.error("SQL Exception5",ex.getLocalizedMessage());
             return new ResponseEntity<String>("empty field", HttpStatus.BAD_REQUEST);
         }
         logger.info("team [" + team.toString()+"] was created");
