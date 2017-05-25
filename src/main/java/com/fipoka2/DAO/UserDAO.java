@@ -17,5 +17,5 @@ public interface UserDAO
     void removeUserByName(String name);
     void updateUser(User user);
     void insertUserToDb(User user);
-
+    void setCaptainById(long id);
 }

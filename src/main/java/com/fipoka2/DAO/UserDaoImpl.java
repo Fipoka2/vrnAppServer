@@ -26,18 +26,20 @@ public class UserDaoImpl implements UserDAO
         @Override
         public User mapRow(ResultSet resultSet, int i) throws SQLException
         {
-            User User = new User();
-            User.setUserId(resultSet.getLong("id_user"));
-            User.setNickname(resultSet.getString("nickname"));
-            User.setPassword(resultSet.getString("password"));
-            User.setIdPrivileges(resultSet.getLong("id_privileges"));
-            User.setIdTeam(resultSet.getLong("id_team"));
-            User.setFio(resultSet.getString("fio"));
-            return User;
+            User user = new User();
+            user.setUserId(resultSet.getLong("id_user"));
+            user.setNickname(resultSet.getString("nickname"));
+            user.setPassword(resultSet.getString("password"));
+            user.setIdPrivileges(resultSet.getLong("id_privileges"));
+            user.setIdTeam(resultSet.getLong("id_team"));
+            user.setFio(resultSet.getString("fio"));
+            user.setCaptain(resultSet.getBoolean("is_captain"));
+
+            return user;
         }
     }
 
-    final String allColumns = "SELECT id_user,nickname,password,id_privileges,id_team,fio FROM user ";
+    final String allColumns = "SELECT id_user,nickname,password,id_privileges,id_team,fio,is_captain FROM user ";
 
     @Override
     public Collection<User> getAllUsers()
@@ -77,17 +79,28 @@ public class UserDaoImpl implements UserDAO
     {
         //final String selectSQL = "SELECT id_team,is_captain from user where id_user = ?";
         final String sql = "DELETE FROM user WHERE id_user = ?";
-        final String rnmUser = "select id_user from user where id_team = ?";
+        //final String rnmUser = "select id_user from user where id_team = ?";
 
         User user = getUserById(id);
+
+        jdbcTemplate.update(sql,id);
+
         if (user.isCaptain())
         {
             if(teamDAO.getUsersAmountByTeam(user.getIdTeam()) > 0)
             {
+                //TODO: переписать без костылей
+                Collection<User> allTeamUsers  = getUsersByTeam(user.getIdTeam());
+                User newCaptain = allTeamUsers.iterator().next();
+                newCaptain.setCaptain(true);
+                updateUser(newCaptain);
+            }
+            else {
 
+                teamDAO.removeTeamById(user.getIdTeam());
             }
         }
-        jdbcTemplate.update(sql,id);
+        //jdbcTemplate.update(sql,id);
     }
 
     @Override
@@ -113,17 +126,29 @@ public class UserDaoImpl implements UserDAO
     @Override
     public void insertUserToDb(User user)
     {
-        final String sql = "INSERT INTO user (nickname,password,id_privileges,id_team,fio) VALUES (?,?,?,?,?)";
+        final String sql = "INSERT INTO user (nickname,password,id_privileges,id_team,fio,is_captain) VALUES (?,?,?,?,?,?)";
         final String name = user.getNickname();
         final String password = user.getPassword();
         final long id_privileges = (user.getIdPrivileges()==0)?1:user.getIdPrivileges();
         final long id_team = user.getIdTeam();
         final String fio = user.getFio();
-        jdbcTemplate.update(sql,new Object[] {name,password,id_privileges,id_team,fio});
+        final boolean is_captain = user.isCaptain();
+        jdbcTemplate.update(sql,new Object[] {name,password,id_privileges,id_team,fio,is_captain});
     }
 
     public void setCaptainById(long id)
     {
+        User futureUser = getUserById(id);
+        for  (User user : getUsersByTeam(futureUser.getIdTeam()))
+        {
+            if (user.isCaptain())
+            {
+                user.setCaptain(false);
+                updateUser(user);
+            }
+            futureUser.setCaptain(true);
+            updateUser(futureUser);
+        }
 
     }
 
